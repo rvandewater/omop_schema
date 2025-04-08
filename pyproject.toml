@@ -10,14 +10,14 @@ authors = [
 ]
 description = "A package to read in and convert OMOP data to the right schema."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "pyarrow", "polars"
+  "pyarrow"
 ]
 
 [tool.setuptools_scm]
@@ -25,12 +25,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pre-commit<4"]
 tests = ["pytest", "pytest-cov"]
-local_parallelism = ["hydra-joblib-launcher"]
-slurm_parallelism = ["hydra-submitit-launcher"]
-
-[project.scripts]
-omop_schema_validate = "omop_schema.__main__:main"
-
+polars = ["polars>=0.16.0"]
+pandas = ["pandas>=1.3.0"]
 
 [project.urls]
 Homepage = "https://github.com/rvandewater/omop_schema"
