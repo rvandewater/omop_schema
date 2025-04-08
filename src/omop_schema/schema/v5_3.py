@@ -5,7 +5,8 @@ from .base import OMOPSchemaBase
 
 class OMOPSchemaV53(OMOPSchemaBase):
     """
-        A class to define and manage the schema for OMOP CDM tables. The base schema is currently defined for version 5.3.
+    A class to define and manage the schema for OMOP CDM tables.
+    The base schema is currently defined for version 5.3.
     """
 
     def _load_schema(self):

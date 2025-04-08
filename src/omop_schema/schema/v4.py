@@ -1,4 +1,5 @@
 import pyarrow as pa
+
 from src.omop_schema.schema.base import OMOPSchemaBase
 
 
@@ -6,6 +7,7 @@ class OMOPSchemaV4(OMOPSchemaBase):
     """
     A class to define and manage the schema for OMOP CDM tables for version 4.
     """
+
     def _load_schema(self):
         return {
             "concept": {

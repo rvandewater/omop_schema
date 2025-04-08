@@ -33,5 +33,5 @@ omop_schema_validate = "omop_schema.__main__:main"
 
 
 [project.urls]
-Homepage = "https://github.com/rvandewater/OMOP_MEDS"
-Issues = "https://github.com/rvandewater/OMOP_MEDS/issues"
+Homepage = "https://github.com/rvandewater/omop_schema"
+Issues = "https://github.com/rvandewater/omop_schema/issues"

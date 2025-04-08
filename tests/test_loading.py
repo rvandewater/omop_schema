@@ -1,12 +1,15 @@
-import pytest
-import pyarrow as pa
 import os
 import tempfile
-import pyarrow.csv as csv
+
+import pyarrow as pa
+import pytest
+
 from src.omop_schema.schema.base import OMOPSchemaBase
+
 
 class MockOMOPSchema(OMOPSchemaBase):
     """Mock subclass of OMOPSchemaBase for testing."""
+
     def _load_schema(self):
         return {
             "person": {
@@ -15,6 +18,7 @@ class MockOMOPSchema(OMOPSchemaBase):
                 "year_of_birth": pa.int64(),
             }
         }
+
 
 @pytest.fixture
 def mock_csv_files():
@@ -26,6 +30,7 @@ def mock_csv_files():
         with open(person_file, "w") as f:
             f.write(person_data)
         yield temp_dir
+
 
 def test_load_csv_dataset(mock_csv_files):
     """Test the load_csv_dataset method."""

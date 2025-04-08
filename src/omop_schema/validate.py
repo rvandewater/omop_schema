@@ -1,6 +1,3 @@
-import pyarrow as pa
-
-
 class OMOPValidator:
     def __init__(self, schema_version):
         self.schema = schema_version()._load_schema()
@@ -24,7 +21,8 @@ class OMOPValidator:
 
         missing_columns = [col for col in expected_schema if col not in dataset_schema]
         mismatched_columns = [
-            col for col in expected_schema
+            col
+            for col in expected_schema
             if col in dataset_schema and dataset_schema[col] != expected_schema[col]
         ]
         extra_columns = [col for col in dataset_schema if col not in expected_schema]
@@ -46,7 +44,6 @@ class OMOPValidator:
             pa.Table: The loaded dataset.
         """
 
-
     def strictly_valid(self):
         """
         Check if the dataset is strictly valid according to the schema.
@@ -57,8 +54,11 @@ class OMOPValidator:
         for table_name, expected_schema in self.schema.items():
             dataset = self.load_dataset(table_name)
             validation_result = self.validate_table(table_name, dataset)
-            if (validation_result["missing_columns"] or validation_result["mismatched_columns"]
-                    or validation_result["extra_columns"]):
+            if (
+                validation_result["missing_columns"]
+                or validation_result["mismatched_columns"]
+                or validation_result["extra_columns"]
+            ):
                 return False
         return True
 
@@ -72,7 +72,6 @@ class OMOPValidator:
         for table_name, expected_schema in self.schema.items():
             dataset = self.load_dataset(table_name)
             validation_result = self.validate_table(table_name, dataset)
-            if (validation_result["missing_columns"] or validation_result["mismatched_columns"]):
+            if validation_result["missing_columns"] or validation_result["mismatched_columns"]:
                 return False
         return True
-

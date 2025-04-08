@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+
 import pyarrow as pa
 from pyarrow import csv
 
@@ -8,6 +9,7 @@ class OMOPSchemaBase(ABC):
     """
     Abstract base class to define and manage the schema for OMOP CDM tables.
     """
+
     def __init__(self):
         self.schemas = self._load_schema()
 
@@ -17,7 +19,6 @@ class OMOPSchemaBase(ABC):
         Load the schema for the OMOP CDM tables.
         This method should be implemented by subclasses.
         """
-        pass
 
     def get_schema(self, table_name):
         return self.schemas.get(table_name, {})
@@ -40,18 +41,19 @@ class OMOPSchemaBase(ABC):
             table_name, ext = os.path.splitext(file_name)
             if ext.lower() == ".csv" and table_name in self.get_table_names():
                 file_path = os.path.join(folder_path, file_name)
-                table_schema = pa.schema([
-                    pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()
-                ])
+                table_schema = pa.schema(
+                    [pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()]
+                )
                 try:
                     datasets[table_name] = csv.read_csv(
                         file_path,
                         read_options=csv.ReadOptions(),
-                        convert_options=csv.ConvertOptions(column_types=table_schema)
+                        convert_options=csv.ConvertOptions(column_types=table_schema),
                     )
                 except Exception as e:
                     print(f"Error loading {file_name}: {e}")
         return datasets
+
     # def read_csv(self, file_path, table_name):
     #     schema = self.get_schema(table_name)
     #     return #pl.read_csv(file_path, dtypes=schema)

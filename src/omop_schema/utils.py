@@ -1,5 +1,5 @@
-from src.omop_schema.schema.v5_4 import OMOPSchemaV54
 from src.omop_schema.schema.v5_3 import OMOPSchemaV53
+from src.omop_schema.schema.v5_4 import OMOPSchemaV54
 
 
 def get_schema_loader(omop_version):
