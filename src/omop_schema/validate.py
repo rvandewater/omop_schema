@@ -1,6 +1,4 @@
 import pyarrow as pa
-import pyarrow.parquet as pq
-from src.omop_schema.base import OMOPSchemaBase
 
 
 class OMOPValidator:
@@ -29,9 +27,52 @@ class OMOPValidator:
             col for col in expected_schema
             if col in dataset_schema and dataset_schema[col] != expected_schema[col]
         ]
+        extra_columns = [col for col in dataset_schema if col not in expected_schema]
 
         return {
             "missing_columns": missing_columns,
             "mismatched_columns": mismatched_columns,
+            "extra_columns": extra_columns,
         }
+
+    def load_dataset(self, path, table_name):
+        """
+        Load the dataset for a specific OMOP table.
+
+        Args:
+            table_name (str): The name of the OMOP table to load.
+
+        Returns:
+            pa.Table: The loaded dataset.
+        """
+
+
+    def strictly_valid(self):
+        """
+        Check if the dataset is strictly valid according to the schema.
+
+        Returns:
+            bool: True if the dataset is strictly valid, False otherwise.
+        """
+        for table_name, expected_schema in self.schema.items():
+            dataset = self.load_dataset(table_name)
+            validation_result = self.validate_table(table_name, dataset)
+            if (validation_result["missing_columns"] or validation_result["mismatched_columns"]
+                    or validation_result["extra_columns"]):
+                return False
+        return True
+
+    def base_valid(self):
+        """
+        Check if the dataset is base valid according to the schema. Excludes checking for extra columns.
+
+        Returns:
+            bool: True if the dataset is base valid, False otherwise.
+        """
+        for table_name, expected_schema in self.schema.items():
+            dataset = self.load_dataset(table_name)
+            validation_result = self.validate_table(table_name, dataset)
+            if (validation_result["missing_columns"] or validation_result["mismatched_columns"]):
+                return False
+        return True
 
