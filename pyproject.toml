@@ -3,13 +3,12 @@ requires = ["setuptools>=64", "setuptools-scm>=8.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "OMOP-MEDS"
+name = "omop_schema"
 dynamic = ["version"]
 authors = [
     { name="Robin van de Water", email="robin.vandewater@hpi.de"},
-  { name="Matthew McDermott", email="mattmcdermott8@gmail.com" },
 ]
-description = "An ETL to convert OMOP data to the MEDS format."
+description = "A package to read in and convert OMOP data to the right schema."
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
@@ -30,8 +29,7 @@ local_parallelism = ["hydra-joblib-launcher"]
 slurm_parallelism = ["hydra-submitit-launcher"]
 
 [project.scripts]
-MEDS_extract-OMOP = "OMOP_MEDS.__main__:main"
-OMOP_MEDS = "OMOP_MEDS.__main__:main"
+omop_schema_validate = "omop_schema.__main__:main"
 
 
 [project.urls]
