@@ -1,6 +1,6 @@
 import pyarrow as pa
 
-from src.omop_schema.schema.v5_3 import OMOPSchemaV53
+from .v5_3 import OMOPSchemaV53
 
 
 # Based on : https://ohdsi.github.io/CommonDataModel/cdm54Changes.html

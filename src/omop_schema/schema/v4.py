@@ -1,6 +1,6 @@
 import pyarrow as pa
 
-from src.omop_schema.schema.base import OMOPSchemaBase
+from .base import OMOPSchemaBase
 
 
 class OMOPSchemaV4(OMOPSchemaBase):

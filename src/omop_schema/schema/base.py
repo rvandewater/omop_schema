@@ -23,6 +23,20 @@ class OMOPSchemaBase(ABC):
     def get_schema(self, table_name):
         return self.schemas.get(table_name, {})
 
+    def get_pyarrow_schema(self, table_name):
+        """
+        Get the PyArrow schema for a specific table.
+
+        Args:
+            table_name (str): The name of the table.
+
+        Returns:
+            pyarrow.Schema: The PyArrow schema for the specified table.
+        """
+        return pa.schema(
+            [pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()]
+        )
+
     def get_table_names(self):
         return list(self.schemas.keys())
 
