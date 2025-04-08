@@ -33,9 +33,7 @@ class OMOPSchemaBase(ABC):
         Returns:
             pyarrow.Schema: The PyArrow schema for the specified table.
         """
-        return pa.schema(
-            [pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()]
-        )
+        return pa.schema([pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()])
 
     def get_table_names(self):
         return list(self.schemas.keys())
