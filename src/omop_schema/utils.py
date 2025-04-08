@@ -61,7 +61,7 @@ def pyarrow_to_polars_schema(arrow_schema: pa.Schema) -> dict:
         pa.binary(): pl.Binary,
         pa.bool_(): pl.Boolean,
         pa.date32(): pl.Date,
-        pa.date64(): pl.Datetime,
+        pa.date64(): pl.Date,
         pa.timestamp("us"): pl.Datetime("us"),
         pa.timestamp("ns"): pl.Datetime("ns"),
     }
