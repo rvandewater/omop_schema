@@ -1,5 +1,14 @@
 # OMOP Schema
 
+[![PyPI - Version](https://img.shields.io/pypi/v/omop_schema)](https://pypi.org/project/omop_schema/)
+[![codecov](https://codecov.io/gh/rvandewater/omop_schema/graph/badge.svg?token=RW6JXHNT0W)](https://codecov.io/gh/rvandewater/omop_schema)
+[![Tests](https://github.com/rvandewater/omop_schema/actions/workflows/tests.yaml/badge.svg)](https://github.com/rvandewater/omop_schema/actions/workflows/tests.yaml)
+[![Code Quality](https://github.com/rvandewater/omop_schema/actions/workflows/code-quality-pr.yaml/badge.svg)](https://github.com/rvandewater/omop_schema/actions/workflows/code-quality-pr.yaml)
+![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-blue?logo=python&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?labelColor=gray)](https://github.com/rvandewater/omop_schema/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/rvandewater/omop_schema/pulls)
+[![Contributors](https://img.shields.io/github/contributors/rvandewater/omop_schema.svg)](https://github.com/rvandewater/omop_schema/graphs/contributors)
+
 `omop_schema` is a Python package designed to read, manage, and convert OMOP (Observational Medical Outcomes Partnership) data into the correct schema. It provides tools to handle OMOP CDM (Common Data Model) tables, convert schemas between different formats (e.g., PyArrow, Polars, Pandas), and load datasets efficiently.
 
 ## Features
