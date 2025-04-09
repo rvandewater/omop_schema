@@ -117,13 +117,18 @@ class OMOPValidator:
         return True
 
 
+import logging
+from rich.console import Console
+from rich.table import Table
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
 def validate_omop_dataset_graphically(validator, dataset_path, load_with_expected_schema=True):
     """
-    Validate an OMOP dataset and display the results in a rich table format.
+    Validate an OMOP dataset and display the results in a rich table format with logging.
     """
-    from rich.console import Console
-    from rich.table import Table
-
     console = Console(width=300, force_terminal=True)
     results_table = Table(title="OMOP Dataset Validation Results")
 
@@ -134,20 +139,24 @@ def validate_omop_dataset_graphically(validator, dataset_path, load_with_expecte
     results_table.add_column("Correct Columns (Name: Type)", style="cyan")
 
     for table_name in validator.schema.keys():
+        logger.info(f"Validating table: {table_name}")
+        console.log(f"[bold blue]Validating table: {table_name}[/bold blue]")
+
         table_path = get_table_path(dataset_path, table_name)
         if table_path is None:
-            results_table.add_row(
-                table_name, "[red]Table does not exist in this dataset[/red]", "-", "-", "-"
-            )
+            message = f"Table '{table_name}' does not exist in this dataset."
+            logger.warning(message)
+            results_table.add_row(table_name, "[red]Table does not exist in this dataset[/red]", "-", "-", "-")
             continue
+
         expected_schema = validator.get_schema_version()
         dataset = load_table_polars(table_path, expected_schema if load_with_expected_schema else None)
         if dataset is not None:
             result = validator.validate_table(table_name, dataset)
         else:
-            results_table.add_row(
-                table_name, "[red]Table does not exist in this dataset[/red]", "-", "-", "-"
-            )
+            message = f"Table '{table_name}' could not be loaded."
+            logger.warning(message)
+            results_table.add_row(table_name, "[red]Table could not be loaded[/red]", "-", "-", "-")
             continue
 
         missing_columns = (
@@ -173,6 +182,11 @@ def validate_omop_dataset_graphically(validator, dataset_path, load_with_expecte
             else "None"
         )
 
+        logger.info(f"Validation results for table '{table_name}': Missing: {missing_columns}, "
+                    f"Mismatched: {mismatched_columns}, Extra: {extra_columns}, Correct: {correct_columns}")
+        console.log(f"[green]Validation completed for table: {table_name}[/green]")
+
         results_table.add_row(table_name, missing_columns, mismatched_columns, extra_columns, correct_columns)
 
     console.print(results_table)
+    logger.info("Validation process completed.")
