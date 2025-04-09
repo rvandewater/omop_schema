@@ -1,5 +1,11 @@
-import pyarrow as pa
+from pathlib import Path
 
+import pyarrow as pa
+from pyarrow import csv
+from pyarrow import parquet as pq
+
+from .convert import convert_to_schema_polars
+from .schema.base import OMOPSchemaBase
 from .schema.v5_3 import OMOPSchemaV53
 from .schema.v5_4 import OMOPSchemaV54
 
@@ -116,3 +122,127 @@ def pyarrow_to_pandas_schema(arrow_schema: pa.Schema) -> dict:
         pandas_schema[field.name] = pandas_type
 
     return pandas_schema
+
+
+def load_table(fp: str | Path, schema: OMOPSchemaBase = None) -> pa.Table | None:
+    """
+    Load a dataset for the given OMOP table using PyArrow.
+
+    Args:
+        fp (Path): Path to the file or directory.
+        schema (OMOPSchemaBase, optional): Schema to validate and cast the table against.
+
+    Returns:
+        pa.Table | None: The loaded PyArrow Table, or None if no valid files are found.
+    """
+    if not isinstance(fp, Path):
+        fp = Path(fp)
+    table_name = fp.stem.split(".")[0]  # Infer table name from file path
+    if fp.is_file():
+        if fp.suffixes == [".csv", ".gz"] or fp.suffix == ".csv":
+            table = csv.read_csv(fp, read_options=csv.ReadOptions(use_threads=True))
+        elif fp.suffix == ".parquet":
+            table = pq.read_table(fp)
+        else:
+            return None
+    elif fp.is_dir():
+        # Handle directory containing multiple files
+        files = list(fp.glob("**/*"))
+        csv_files = [file for file in files if file.suffix in [".csv", ".gz"]]
+        parquet_files = [file for file in files if file.suffix == ".parquet"]
+
+        if csv_files:
+            tables = [
+                csv.read_csv(file, read_options=csv.ReadOptions(use_threads=True)) for file in csv_files
+            ]
+            table = pa.concat_tables(tables)
+        elif parquet_files:
+            tables = [pq.read_table(file) for file in parquet_files]
+            table = pa.concat_tables(tables)
+        else:
+            return None
+    else:
+        return None
+
+    # If a schema is provided, validate and cast the table. Keep the extra columns.
+    if schema:
+        expected_schema = schema.get_pyarrow_schema(table_name)
+        # Identify extra columns
+        extra_columns = [
+            (col, table.schema.field(col).type)
+            for col in table.column_names
+            if col not in [field.name for field in expected_schema]
+        ]
+        # Get the intersection of schema fields and table columns
+        common_fields = [field for field in expected_schema if field.name in table.column_names]
+        # Reorder table columns to match the common schema's field order
+        reordered_columns = [field.name for field in common_fields] + [col for col, _ in extra_columns]
+        table = table.select(reordered_columns)
+        # Cast only the common columns
+        casted_table = table.select([field.name for field in common_fields]).cast(pa.schema(common_fields))
+        # Combine casted common columns with extra columns
+        for col in extra_columns:
+            casted_table = casted_table.append_column(col[0], table[col[0]])
+
+        table = casted_table
+
+    return table
+
+
+def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyFrame | None:
+    """
+    Load a dataset for the given OMOP table using Polars with lazy evaluation.
+
+    Args:
+        fp (Path): Path to the file or directory.
+        schema (OMOPSchemaBase, optional): Schema to validate and cast the table against.
+
+    Returns:
+        pl.LazyFrame | None: The loaded Polars LazyFrame, or None if no valid files are found.
+    """
+    if not isinstance(fp, Path):
+        fp = Path(fp)
+    table_name = fp.stem.split(".")[0]  # Infer table name from file path
+
+    if fp.is_file():
+        if fp.suffix in [".csv", ".gz"]:
+            table = pl.scan_csv(fp)
+        elif fp.suffix == ".parquet":
+            table = pl.scan_parquet(fp)
+        else:
+            return None
+    elif fp.is_dir():
+        # Handle directory containing multiple files
+        files = list(fp.glob("**/*"))
+        csv_files = [file for file in files if file.suffix in [".csv", ".gz"]]
+        parquet_files = [file for file in files if file.suffix == ".parquet"]
+
+        if csv_files:
+            tables = [pl.scan_csv(file) for file in csv_files]
+            table = pl.concat(tables)
+        elif parquet_files:
+            tables = [pl.scan_parquet(file) for file in parquet_files]
+            table = pl.concat(tables)
+        else:
+            return None
+    else:
+        return None
+
+    # If a schema is provided, validate and cast the table. Keep the extra columns.
+    if schema:
+        expected_schema = schema.get_schema(table_name)
+        expected_schema = pyarrow_to_polars_schema(pa.schema(expected_schema))
+        table = convert_to_schema_polars(table, expected_schema, allow_extra_columns=True)
+
+    return table
+
+
+def get_table_path(input_dir: str, table_name: str) -> Path | None:
+    input_dir = Path(input_dir)
+    table_path = input_dir / table_name
+    if table_path.exists():
+        return table_path
+    table_path_with_ext = list(input_dir.glob(f"{table_name}.*"))
+    if table_path_with_ext:
+        return table_path_with_ext[0]
+    return None

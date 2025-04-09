@@ -49,7 +49,9 @@ except ImportError:
     POLARS_AVAILABLE = False
 
 
-def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, allow_missing_columns=True):
+def convert_to_schema_polars(
+    dataset, target_schema, allow_extra_columns=False, allow_missing_columns=True, add_missing_columns=False
+):
     """
     Convert a Polars DataFrame or LazyFrame to match the target schema.
 
@@ -57,7 +59,8 @@ def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, 
         dataset (pl.DataFrame or pl.LazyFrame): The input dataset with a potentially different schema.
         target_schema (dict): A dictionary defining the desired schema (column name -> data type).
         allow_extra_columns (bool): If True, extra columns in the dataset are retained.
-        allow_missing_columns (bool): If True, missing columns in the dataset are added with default values.
+        allow_missing_columns (bool): If True, we do not fail on missing columns.
+        add_missing_columns (bool): If True, missing columns are added with default values.
 
     Returns:
         pl.DataFrame or pl.LazyFrame: The dataset converted to match the target schema.
@@ -68,25 +71,24 @@ def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, 
 
     source_schema = dataset.collect_schema()
 
+    # Check for missing columns
+    if not allow_missing_columns:
+        missing_columns = [column for column in target_schema if column not in source_schema.names()]
+        if missing_columns:
+            raise ValueError(f"Missing columns: {missing_columns}")
+
     # Add missing columns with default values
-    for column, dtype in target_schema.items():
-        if column not in source_schema.names():
-            default_value = pl.lit(None, dtype=dtype).alias(column)
-            dataset = dataset.with_columns(default_value)
+    if add_missing_columns:
+        for column, dtype in target_schema.items():
+            if column not in source_schema.names():
+                default_value = pl.lit(None, dtype=dtype).alias(column)
+                dataset = dataset.with_columns(default_value)
 
     # If extra columns are not allowed, select only the target schema columns
     if not allow_extra_columns:
         dataset = dataset.select(list(target_schema.keys()))
 
     # Ensure column types match the target schema
-
-
-    if not allow_missing_columns:
-        missing_columns = [
-            column for column in target_schema if column not in source_schema.names()
-        ]
-        if missing_columns:
-            raise ValueError(f"Missing columns: {missing_columns}")
 
     for column, dtype in target_schema.items():
         if column not in source_schema:
@@ -95,6 +97,7 @@ def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, 
             dataset = dataset.with_columns(pl.col(column).cast(dtype))
 
     return dataset
+
 
 def process_omop_dataset(input_dir, output_dir, schema):
     """
