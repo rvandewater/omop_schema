@@ -70,14 +70,18 @@ def test_convert_to_schema_polars():
     )
 
     # Test with DataFrame
-    converted_df = convert_to_schema_polars(data, target_schema, allow_extra_columns=False)
+    converted_df = convert_to_schema_polars(
+        data, target_schema, allow_extra_columns=False, add_missing_columns=True
+    )
     assert converted_df.schema == target_schema, "Schema mismatch for DataFrame."
     assert "col3" in converted_df.columns, "Missing column 'col3' in DataFrame."
     assert converted_df["col3"].to_list() == [None, None], "Default values for 'col3' are incorrect."
 
     # Test with LazyFrame
     lazy_data = data.lazy()
-    converted_lf = convert_to_schema_polars(lazy_data, target_schema, allow_extra_columns=False)
+    converted_lf = convert_to_schema_polars(
+        lazy_data, target_schema, allow_extra_columns=False, add_missing_columns=True
+    )
     assert isinstance(converted_lf, pl.LazyFrame), "Result is not a LazyFrame."
     assert converted_lf.collect().schema == target_schema, "Schema mismatch for LazyFrame."
     assert "col3" in converted_lf.collect().columns, "Missing column 'col3' in LazyFrame."

@@ -1,5 +1,12 @@
-import pandas as pd
-import polars as pl
+try:
+    import pandas as pd
+except (ImportError, ModuleNotFoundError):
+    PANDAS_AVAILABLE = False
+
+try:
+    import polars as pl
+except (ImportError, ModuleNotFoundError):
+    POLARS_AVAILABLE = False
 import pyarrow as pa
 
 from src.omop_schema.utils import (

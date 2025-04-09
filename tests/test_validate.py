@@ -73,8 +73,9 @@ def test_valid_dataset(validator, valid_table):
 def test_invalid_dataset(validator, invalid_table):
     """Test that an invalid dataset fails validation."""
     result = validator.validate_table("person", invalid_table)
-    assert "month_of_birth" in result["missing_columns"], "Expected 'month_of_birth' to be missing."
-    assert "day_of_birth" in result["missing_columns"], "Expected 'day_of_birth' to be missing."
+    missing_column_names = [col[0] for col in result["missing_columns"]]
+    assert "month_of_birth" in missing_column_names, "Expected 'month_of_birth' to be missing."
+    assert "day_of_birth" in missing_column_names, "Expected 'day_of_birth' to be missing."
     assert not result["mismatched_columns"], f"Unexpected mismatched columns: {result['mismatched_columns']}"
 
 
@@ -83,6 +84,5 @@ def test_valid_dataset_extended(validator, valid_table_extended):
     result = validator.validate_table("person", valid_table_extended)
     assert not result["missing_columns"], f"Unexpected missing columns: {result['missing_columns']}"
     assert not result["mismatched_columns"], f"Unexpected mismatched columns: {result['mismatched_columns']}"
-    assert result["extra_columns"] == [
-        "extra_column_1"
-    ], f"Unexpected extra columns: {result['extra_columns']}"
+    extra_column_names = [col[0] for col in result["extra_columns"]]
+    assert extra_column_names == ["extra_column_1"], f"Unexpected extra columns: {result['extra_columns']}"
