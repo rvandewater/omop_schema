@@ -1,10 +1,12 @@
 try:
     import pandas as pd
+    PANDAS_AVAILABLE = True
 except (ImportError, ModuleNotFoundError):
     PANDAS_AVAILABLE = False
 
 try:
     import polars as pl
+    POLARS_AVAILABLE = True
 except (ImportError, ModuleNotFoundError):
     POLARS_AVAILABLE = False
 import pyarrow as pa
