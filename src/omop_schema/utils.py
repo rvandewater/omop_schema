@@ -189,7 +189,9 @@ def load_table(fp: str | Path, schema: OMOPSchemaBase = None) -> pa.Table | None
     return table
 
 
-def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyFrame | None:
+def load_table_polars(
+    fp: str | Path, schema: OMOPSchemaBase = None, case_insensitive=True
+) -> pl.LazyFrame | None:
     """
     Load a dataset for the given OMOP table using Polars with lazy evaluation.
 
@@ -199,6 +201,7 @@ def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyF
 
     Returns:
         pl.LazyFrame | None: The loaded Polars LazyFrame, or None if no valid files are found.
+        :param case_insensitive:
     """
     if not isinstance(fp, Path):
         fp = Path(fp)
@@ -218,7 +221,7 @@ def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyF
         parquet_files = [file for file in files if file.suffix == ".parquet"]
 
         if csv_files:
-            table = pl.scan(fp)
+            table = pl.scan_csv(fp)
         elif parquet_files:
             table = pl.scan_parquet(fp)
         else:
@@ -226,6 +229,9 @@ def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyF
     else:
         return None
 
+    # Convert every field/column to lowercase
+    if case_insensitive:
+        table = table.select(pl.all().name.to_lowercase())
     # If a schema is provided, validate and cast the table. Keep the extra columns.
     if schema:
         expected_schema = schema.get_schema(table_name)

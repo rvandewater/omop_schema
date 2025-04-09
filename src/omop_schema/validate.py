@@ -1,21 +1,19 @@
 try:
     import pandas as pd
+
     PANDAS_AVAILABLE = True
 except (ImportError, ModuleNotFoundError):
     PANDAS_AVAILABLE = False
 
 try:
     import polars as pl
+
     POLARS_AVAILABLE = True
 except (ImportError, ModuleNotFoundError):
     POLARS_AVAILABLE = False
 import pyarrow as pa
 
-from .utils import (
-    get_table_path,
-    load_table_polars,
-    pyarrow_to_polars_schema,
-)
+from .utils import get_table_path, load_table_polars, pyarrow_to_polars_schema
 
 
 class OMOPValidator:
@@ -118,6 +116,7 @@ class OMOPValidator:
 
 
 import logging
+
 from rich.console import Console
 from rich.table import Table
 
@@ -125,7 +124,10 @@ from rich.table import Table
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-def validate_omop_dataset_graphically(validator, dataset_path, load_with_expected_schema=True):
+
+def validate_omop_dataset_graphically(
+    validator, dataset_path, load_with_expected_schema=True, case_insensitive=True
+):
     """
     Validate an OMOP dataset and display the results in a rich table format with logging.
     """
@@ -146,7 +148,9 @@ def validate_omop_dataset_graphically(validator, dataset_path, load_with_expecte
         if table_path is None:
             message = f"Table '{table_name}' does not exist in this dataset."
             logger.warning(message)
-            results_table.add_row(table_name, "[red]Table does not exist in this dataset[/red]", "-", "-", "-")
+            results_table.add_row(
+                table_name, "[red]Table does not exist in this dataset[/red]", "-", "-", "-"
+            )
             continue
 
         expected_schema = validator.get_schema_version()
@@ -182,8 +186,10 @@ def validate_omop_dataset_graphically(validator, dataset_path, load_with_expecte
             else "None"
         )
 
-        logger.info(f"Validation results for table '{table_name}': Missing: {missing_columns}, "
-                    f"Mismatched: {mismatched_columns}, Extra: {extra_columns}, Correct: {correct_columns}")
+        logger.info(
+            f"Validation results for table '{table_name}': Missing: {missing_columns}, "
+            f"Mismatched: {mismatched_columns}, Extra: {extra_columns}, Correct: {correct_columns}"
+        )
         console.log(f"[green]Validation completed for table: {table_name}[/green]")
 
         results_table.add_row(table_name, missing_columns, mismatched_columns, extra_columns, correct_columns)
