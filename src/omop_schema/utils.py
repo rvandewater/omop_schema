@@ -103,8 +103,8 @@ def pyarrow_to_pandas_schema(arrow_schema: pa.Schema) -> dict:
         pa.bool_(): "bool",
         pa.date32(): "datetime64[ns]",
         pa.date64(): "datetime64[ns]",
-        pa.timestamp("us"): "datetime64[ns]",
-        pa.timestamp("ns"): "datetime64[ns]",
+        pa.timestamp("us"): "timestamp[us]",
+        pa.timestamp("ns"): "timestamp[ns]",
     }
 
     pandas_schema = {}

@@ -1,6 +1,7 @@
+import polars as pl
 import pyarrow as pa
 
-from src.omop_schema.convert import convert_to_schema
+from src.omop_schema.convert import convert_to_schema, convert_to_schema_polars
 
 
 def test_convert_to_schema():
@@ -41,3 +42,50 @@ def test_convert_to_schema():
         None,
         None,
     ], "Default values for 'year_of_birth' are incorrect."
+
+
+def test_convert_to_schema_polars():
+    """Test the convert_to_schema_polars function for Polars."""
+    # Define the target schema
+    target_schema = {
+        "col1": pl.Int64,
+        "col2": pl.Utf8,
+        "col3": pl.Float64,
+    }
+
+    # Create a Polars DataFrame with a different schema
+    source_schema = {
+        "col1": pl.Int32,
+        "col2": pl.Utf8,
+        "extra_col": pl.Boolean,
+    }
+
+    data = pl.DataFrame(
+        {
+            "col1": [1, 2],
+            "col2": ["a", "b"],
+            "extra_col": [True, False],  # Extra column not in target schema
+        },
+        schema=source_schema,
+    )
+
+    # Test with DataFrame
+    converted_df = convert_to_schema_polars(data, target_schema, allow_extra_columns=False)
+    assert converted_df.schema == target_schema, "Schema mismatch for DataFrame."
+    assert "col3" in converted_df.columns, "Missing column 'col3' in DataFrame."
+    assert converted_df["col3"].to_list() == [None, None], "Default values for 'col3' are incorrect."
+
+    # Test with LazyFrame
+    lazy_data = data.lazy()
+    converted_lf = convert_to_schema_polars(lazy_data, target_schema, allow_extra_columns=False)
+    assert isinstance(converted_lf, pl.LazyFrame), "Result is not a LazyFrame."
+    assert converted_lf.collect().schema == target_schema, "Schema mismatch for LazyFrame."
+    assert "col3" in converted_lf.collect().columns, "Missing column 'col3' in LazyFrame."
+    assert converted_lf.collect()["col3"].to_list() == [
+        None,
+        None,
+    ], "Default values for 'col3' are incorrect."
+
+    # Test with allow_extra_columns=True
+    converted_df_extra = convert_to_schema_polars(data, target_schema, allow_extra_columns=True)
+    assert "extra_col" in converted_df_extra.columns, "Extra column 'extra_col' was removed unexpectedly."
