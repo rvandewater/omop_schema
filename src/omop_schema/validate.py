@@ -52,7 +52,8 @@ class OMOPValidator:
             dataset_schema = {field.name: field.type for field in dataset.schema}
         elif POLARS_AVAILABLE and isinstance(dataset, (pl.DataFrame, pl.LazyFrame)):
             expected_schema = pyarrow_to_polars_schema(pa.schema(expected_schema))
-            dataset_schema = {col: dataset.schema[col] for col in dataset.columns}
+            dataset_schema = dataset.collect_schema()
+            # dataset_schema = {col: dataset.schema[col] for col in dataset.columns}
         elif PANDAS_AVAILABLE and isinstance(dataset, pd.DataFrame):
             dataset_schema = {col: str(dtype) for col, dtype in dataset.dtypes.items()}
         else:
