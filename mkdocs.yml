@@ -1,0 +1,15 @@
+site_name: omop_schema package
+theme:
+  name: material
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: sphinx
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
