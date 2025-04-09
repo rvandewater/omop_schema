@@ -9,7 +9,7 @@ except (ImportError, ModuleNotFoundError):
     POLARS_AVAILABLE = False
 import pyarrow as pa
 
-from src.omop_schema.utils import (
+from .utils import (
     get_table_path,
     load_table_polars,
     pyarrow_to_polars_schema,
