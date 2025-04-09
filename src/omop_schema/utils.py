@@ -218,11 +218,9 @@ def load_table_polars(fp: str | Path, schema: OMOPSchemaBase = None) -> pl.LazyF
         parquet_files = [file for file in files if file.suffix == ".parquet"]
 
         if csv_files:
-            tables = [pl.scan_csv(file) for file in csv_files]
-            table = pl.concat(tables)
+            table = pl.scan(fp)
         elif parquet_files:
-            tables = [pl.scan_parquet(file) for file in parquet_files]
-            table = pl.concat(tables)
+            table = pl.scan_parquet(fp)
         else:
             return None
     else:
