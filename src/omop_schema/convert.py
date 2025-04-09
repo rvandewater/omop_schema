@@ -66,9 +66,11 @@ def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, 
     if not isinstance(dataset, (pl.DataFrame, pl.LazyFrame)):
         raise TypeError("Dataset must be a Polars DataFrame or LazyFrame.")
 
+    source_schema = dataset.collect_schema()
+
     # Add missing columns with default values
     for column, dtype in target_schema.items():
-        if column not in dataset.columns:
+        if column not in source_schema.names():
             default_value = pl.lit(None, dtype=dtype).alias(column)
             dataset = dataset.with_columns(default_value)
 
@@ -77,7 +79,7 @@ def convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, 
         dataset = dataset.select(list(target_schema.keys()))
 
     # Ensure column types match the target schema
-    source_schema = dataset.collect_schema()
+
 
     if not allow_missing_columns:
         missing_columns = [
