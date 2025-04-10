@@ -14,3 +14,6 @@ markdown_extensions:
   - codehilite
   - toc:
       permalink: true
+nav:
+  - Home: index.md
+  - Sphinx Documentation: sphinx/index.html

@@ -49,4 +49,7 @@ jobs:
           cp -r sphinx/build/html docs/sphinx
 
       # Deploy MkDocs to GitHub Pages
-      - run: mkdocs gh-deploy --force
+      - name: Deploy MkDocs
+        run: |
+          mkdocs build
+          mkdocs gh-deploy --force
