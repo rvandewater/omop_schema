@@ -1,4 +1,5 @@
 site_name: omop_schema package
+docs_dir: docs
 theme:
   name: material
 plugins:

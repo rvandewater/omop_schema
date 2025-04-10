@@ -117,18 +117,20 @@ validate_omop_dataset_graphically(validator, dataset_path="path/to/dataset")
 ```
 
 The function will:
+
 - Log the validation progress in real-time.
 - Display a graphical table summarizing:
-  - Missing columns
-  - Mismatched columns
-  - Extra columns
-  - Correct columns
+    - Missing columns
+    - Mismatched columns
+    - Extra columns
+    - Correct columns
 
----
+______________________________________________________________________
 
 ## **Example Output**
 
 ### **Console Log**
+
 ```plaintext
 2023-10-01 12:00:00 - INFO - Validating table: person
 2023-10-01 12:00:01 - INFO - Validation results for table 'person': Missing: month_of_birth, Mismatched: None, Extra: extra_column_1, Correct: person_id, gender_concept_id
@@ -136,6 +138,7 @@ The function will:
 ```
 
 ### **Graphical Table**
+
 ```
 +-------------+-----------------------------+-----------------------------------+----------------------+----------------------+
 | Table Name  | Missing Columns             | Mismatched Columns               | Extra Columns        | Correct Columns      |
@@ -146,29 +149,32 @@ The function will:
 +-------------+-----------------------------+-----------------------------------+----------------------+----------------------+
 ```
 
----
+______________________________________________________________________
 
 ## **Parameters**
 
-| Parameter                | Type            | Description                                                                 |
-|--------------------------|-----------------|-----------------------------------------------------------------------------|
-| `validator`              | `OMOPValidator`| The validator object containing the schema for validation.                 |
-| `dataset_path`           | `str | Path`   | Path to the dataset directory or file to validate.                         |
-| `load_with_expected_schema` | `bool`      | Whether to load the dataset with the expected schema. Default is `True`.   |
+| Parameter                   | Type            | Description                                                              |
+| --------------------------- | --------------- | ------------------------------------------------------------------------ |
+| `validator`                 | `OMOPValidator` | The validator object containing the schema for validation.               |
+| `dataset_path`              | \`str           | Path\`                                                                   |
+| `load_with_expected_schema` | `bool`          | Whether to load the dataset with the expected schema. Default is `True`. |
 
----
+______________________________________________________________________
 
 ## **Notes**
+
 - Ensure the dataset files are in a supported format (e.g., `.csv`, `.parquet`).
 - The function uses the `rich` library for graphical output and `logging` for real-time feedback.
 - Missing or mismatched columns are highlighted in the output for easy identification.
 
----
+______________________________________________________________________
 
 ## **Troubleshooting**
+
 - **Missing Dependencies**: Install the required libraries using `pip install rich`.
 - **Invalid Dataset Path**: Ensure the dataset path is correct and accessible.
 - **Schema Issues**: Verify the schema file is correctly defined and matches the dataset structure.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request on the [GitHub repository](https://github.com/rvandewater/omop_schema).
