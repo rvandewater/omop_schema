@@ -35,7 +35,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
-          pip install mkdocs-material 'mkdocstrings[python]' sphinx autoapi
+          pip install mkdocs-material 'mkdocstrings[python]' sphinx-autoapi
 
       # Build Sphinx documentation
       - name: Build Sphinx documentation
