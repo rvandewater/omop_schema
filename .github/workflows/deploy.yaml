@@ -46,7 +46,7 @@ jobs:
       # Copy Sphinx output to MkDocs docs directory
       - name: Copy Sphinx output
         run: |
-          cp -r sphinx/build/html /mkdocs/docs/sphinx
+          cp -r sphinx/build/html /docs/sphinx
 
       # Deploy MkDocs to GitHub Pages
       - run: mkdocs gh-deploy --force
