@@ -25,7 +25,7 @@ jobs:
 
       - name: Install packages
         run: |
-          pip install .[dev, polars, pandas]
+          pip install ".[dev, polars, pandas]"
 
       - name: Run pre-commits
         uses: pre-commit/action@v3.0.1
