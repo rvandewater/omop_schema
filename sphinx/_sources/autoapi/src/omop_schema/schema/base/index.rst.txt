@@ -1,0 +1,67 @@
+src.omop_schema.schema.base
+===========================
+
+.. py:module:: src.omop_schema.schema.base
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   src.omop_schema.schema.base.OMOPSchemaBase
+
+
+Module Contents
+---------------
+
+.. py:class:: OMOPSchemaBase
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Abstract base class to define and manage the schema for OMOP CDM tables.
+
+
+   .. py:attribute:: schemas
+
+
+   .. py:method:: _load_schema()
+      :abstractmethod:
+
+
+      Load the schema for the OMOP CDM tables.
+      This method should be implemented by subclasses.
+
+
+
+   .. py:method:: get_schema(table_name)
+
+
+   .. py:method:: get_pyarrow_schema(table_name)
+
+      Get the PyArrow schema for a specific table.
+
+      :param table_name: The name of the table.
+      :type table_name: str
+
+      :returns: The PyArrow schema for the specified table.
+      :rtype: pyarrow.Schema
+
+
+
+   .. py:method:: get_table_names()
+
+
+   .. py:method:: load_csv_dataset(folder_path)
+
+      Load datasets from a folder, matching files to table schemas.
+
+      :param folder_path: Path to the folder containing the dataset files.
+      :type folder_path: str
+
+      :returns: A dictionary where keys are table names and values are PyArrow tables.
+      :rtype: dict
+
+
+

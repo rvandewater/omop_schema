@@ -1,0 +1,32 @@
+src.omop_schema.schema.v4
+=========================
+
+.. py:module:: src.omop_schema.schema.v4
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   src.omop_schema.schema.v4.OMOPSchemaV4
+
+
+Module Contents
+---------------
+
+.. py:class:: OMOPSchemaV4
+
+   Bases: :py:obj:`src.omop_schema.schema.base.OMOPSchemaBase`
+
+
+   A class to define and manage the schema for OMOP CDM tables for version 4.
+
+
+   .. py:method:: _load_schema()
+
+      Load the schema for the OMOP CDM tables.
+      This method should be implemented by subclasses.
+
+
+

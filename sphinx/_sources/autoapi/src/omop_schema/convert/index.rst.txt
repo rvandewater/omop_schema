@@ -1,0 +1,79 @@
+src.omop_schema.convert
+=======================
+
+.. py:module:: src.omop_schema.convert
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   src.omop_schema.convert.POLARS_AVAILABLE
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   src.omop_schema.convert.convert_to_schema
+   src.omop_schema.convert.convert_to_schema_polars
+   src.omop_schema.convert.process_omop_dataset
+
+
+Module Contents
+---------------
+
+.. py:function:: convert_to_schema(dataset, target_schema, allow_extra_columns=False)
+
+   Convert a dataset to match the target schema.
+
+   :param dataset: The input dataset with a potentially different schema.
+   :type dataset: pa.Table
+   :param target_schema: The desired schema to align the dataset to.
+   :type target_schema: pa.Schema
+   :param allow_extra_columns: If True, extra columns in the dataset are retained.
+   :type allow_extra_columns: bool
+
+   :returns: The dataset converted to match the target schema.
+   :rtype: pa.Table
+
+
+.. py:data:: POLARS_AVAILABLE
+   :value: True
+
+
+.. py:function:: convert_to_schema_polars(dataset, target_schema, allow_extra_columns=False, allow_missing_columns=True, add_missing_columns=False)
+
+   Convert a Polars DataFrame or LazyFrame to match the target schema.
+
+   :param dataset: The input dataset with a potentially different schema.
+   :type dataset: pl.DataFrame or pl.LazyFrame
+   :param target_schema: A dictionary defining the desired schema (column name -> data type).
+   :type target_schema: dict
+   :param allow_extra_columns: If True, extra columns in the dataset are retained.
+   :type allow_extra_columns: bool
+   :param allow_missing_columns: If True, we do not fail on missing columns.
+   :type allow_missing_columns: bool
+   :param add_missing_columns: If True, missing columns are added with default values.
+   :type add_missing_columns: bool
+
+   :returns: The dataset converted to match the target schema.
+   :rtype: pl.DataFrame or pl.LazyFrame
+
+
+.. py:function:: process_omop_dataset(input_dir, output_dir, schema)
+
+   Reads an OMOP dataset from CSV files, validates it against a schema, and writes it back to disk.
+
+   :param input_dir: Path to the directory containing the OMOP dataset (CSV files).
+   :type input_dir: str
+   :param output_dir: Path to the directory where processed files will be saved.
+   :type output_dir: str
+   :param schema: A dictionary defining the desired schema (column name -> data type).
+   :type schema: dict
+
+   :returns: None
+
+

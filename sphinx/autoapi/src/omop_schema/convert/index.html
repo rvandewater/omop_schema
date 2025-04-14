@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>src.omop_schema.convert &#8212; omop_schema 0.0.4 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+    <script src="../../../../_static/documentation_options.js?v=8c5712d9"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-src.omop_schema.convert">
+<span id="src-omop-schema-convert"></span><h1>src.omop_schema.convert<a class="headerlink" href="#module-src.omop_schema.convert" title="Link to this heading">¶</a></h1>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.omop_schema.convert.POLARS_AVAILABLE" title="src.omop_schema.convert.POLARS_AVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">POLARS_AVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.omop_schema.convert.convert_to_schema" title="src.omop_schema.convert.convert_to_schema"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_schema</span></code></a>(dataset, target_schema[, ...])</p></td>
+<td><p>Convert a dataset to match the target schema.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.omop_schema.convert.convert_to_schema_polars" title="src.omop_schema.convert.convert_to_schema_polars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_to_schema_polars</span></code></a>(dataset, target_schema[, ...])</p></td>
+<td><p>Convert a Polars DataFrame or LazyFrame to match the target schema.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.omop_schema.convert.process_omop_dataset" title="src.omop_schema.convert.process_omop_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_omop_dataset</span></code></a>(input_dir, output_dir, schema)</p></td>
+<td><p>Reads an OMOP dataset from CSV files, validates it against a schema, and writes it back to disk.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.omop_schema.convert.convert_to_schema">
+<span class="sig-prename descclassname"><span class="pre">src.omop_schema.convert.</span></span><span class="sig-name descname"><span class="pre">convert_to_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/src/omop_schema/convert.html#convert_to_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.omop_schema.convert.convert_to_schema" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a dataset to match the target schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>pa.Table</em>) – The input dataset with a potentially different schema.</p></li>
+<li><p><strong>target_schema</strong> (<em>pa.Schema</em>) – The desired schema to align the dataset to.</p></li>
+<li><p><strong>allow_extra_columns</strong> (<em>bool</em>) – If True, extra columns in the dataset are retained.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset converted to match the target schema.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pa.Table</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="src.omop_schema.convert.POLARS_AVAILABLE">
+<span class="sig-prename descclassname"><span class="pre">src.omop_schema.convert.</span></span><span class="sig-name descname"><span class="pre">POLARS_AVAILABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../_modules/src/omop_schema/convert.html#POLARS_AVAILABLE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.omop_schema.convert.POLARS_AVAILABLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.omop_schema.convert.convert_to_schema_polars">
+<span class="sig-prename descclassname"><span class="pre">src.omop_schema.convert.</span></span><span class="sig-name descname"><span class="pre">convert_to_schema_polars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_missing_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/src/omop_schema/convert.html#convert_to_schema_polars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.omop_schema.convert.convert_to_schema_polars" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a Polars DataFrame or LazyFrame to match the target schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>pl.DataFrame</em><em> or </em><em>pl.LazyFrame</em>) – The input dataset with a potentially different schema.</p></li>
+<li><p><strong>target_schema</strong> (<em>dict</em>) – A dictionary defining the desired schema (column name -&gt; data type).</p></li>
+<li><p><strong>allow_extra_columns</strong> (<em>bool</em>) – If True, extra columns in the dataset are retained.</p></li>
+<li><p><strong>allow_missing_columns</strong> (<em>bool</em>) – If True, we do not fail on missing columns.</p></li>
+<li><p><strong>add_missing_columns</strong> (<em>bool</em>) – If True, missing columns are added with default values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset converted to match the target schema.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame or pl.LazyFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.omop_schema.convert.process_omop_dataset">
+<span class="sig-prename descclassname"><span class="pre">src.omop_schema.convert.</span></span><span class="sig-name descname"><span class="pre">process_omop_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/src/omop_schema/convert.html#process_omop_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.omop_schema.convert.process_omop_dataset" title="Link to this definition">¶</a></dt>
+<dd><p>Reads an OMOP dataset from CSV files, validates it against a schema, and writes it back to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dir</strong> (<em>str</em>) – Path to the directory containing the OMOP dataset (CSV files).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Path to the directory where processed files will be saved.</p></li>
+<li><p><strong>schema</strong> (<em>dict</em>) – A dictionary defining the desired schema (column name -&gt; data type).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">omop_schema</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Robin P. van de Water.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../../../../_sources/autoapi/src/omop_schema/convert/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

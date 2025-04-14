@@ -1,0 +1,99 @@
+src.omop_schema.validate
+========================
+
+.. py:module:: src.omop_schema.validate
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   src.omop_schema.validate.PANDAS_AVAILABLE
+   src.omop_schema.validate.POLARS_AVAILABLE
+   src.omop_schema.validate.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   src.omop_schema.validate.OMOPValidator
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   src.omop_schema.validate.validate_omop_dataset_graphically
+
+
+Module Contents
+---------------
+
+.. py:data:: PANDAS_AVAILABLE
+   :value: True
+
+
+.. py:data:: POLARS_AVAILABLE
+   :value: True
+
+
+.. py:class:: OMOPValidator(schema_version)
+
+   .. py:attribute:: schema_version
+
+
+   .. py:attribute:: schema
+
+
+   .. py:method:: get_schema_version()
+
+      Get the schema for the specified OMOP version.
+
+      :returns: The schema for the specified OMOP version.
+      :rtype: OMOPSchemaBase
+
+
+
+   .. py:method:: validate_table(table_name, dataset)
+
+      Validate a dataset against the schema for a specific OMOP table.
+
+      :param table_name: The name of the OMOP table to validate.
+      :type table_name: str
+      :param dataset: The dataset to validate.
+      :type dataset: pa.Table | pl.DataFrame | pl.LazyFrame | pd.DataFrame
+
+      :returns: Validation results with missing, mismatched, extra columns, and correct columns.
+      :rtype: dict
+
+
+
+   .. py:method:: strictly_valid()
+
+      Check if the dataset is strictly valid according to the schema.
+
+      :returns: True if the dataset is strictly valid, False otherwise.
+      :rtype: bool
+
+
+
+   .. py:method:: base_valid()
+
+      Check if the dataset is base valid according to the schema. Excludes checking for extra columns.
+
+      :returns: True if the dataset is base valid, False otherwise.
+      :rtype: bool
+
+
+
+.. py:data:: logger
+
+.. py:function:: validate_omop_dataset_graphically(validator, dataset_path, load_with_expected_schema=True, case_insensitive=True)
+
+   Validate an OMOP dataset and display the results in a rich table format with logging.
+
+
