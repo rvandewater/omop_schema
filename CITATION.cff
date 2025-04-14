@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "OMOP_MEDS ETL"
+title: "omop_schema: a package for working with the OMOP CDM in Python"
 doi: "10.5281/zenodo.15132444"
 authors:
   - family-names: "van de Water"
-    given-names: "Robin Philippus"
+    given-names: "Robin P."
     orcid: "https://orcid.org/0000-0002-2895-4872"
 date-released: "2025-02-19"
-url: "https://github.com/rvandewater/OMOP_MEDS"
-repository-code: "https://github.com/rvandewater/OMOP_MEDS"
+url: "https://github.com/rvandewater/omop_schema"
+repository-code: "https://github.com/rvandewater/omop_schema"
 license: "MIT"

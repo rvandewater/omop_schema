@@ -35,7 +35,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "autoapi.extension",
 ]
-
+master_doc = "index"
 autoapi_type = "python"
 autoapi_dirs = ["../../src/omop_schema/"]  # Adjusted path to your source code
 # templates_path = ['_templates']

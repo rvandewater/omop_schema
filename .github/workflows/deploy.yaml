@@ -51,5 +51,5 @@ jobs:
       # Deploy MkDocs to GitHub Pages
       - name: Deploy MkDocs
         run: |
-          mkdocs build
+          mkdocs build --config-file mkdocs.yml
           mkdocs gh-deploy --force
