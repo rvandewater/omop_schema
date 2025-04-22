@@ -1,0 +1,28 @@
+src.omop_schema.schema.v5_0
+===========================
+
+.. py:module:: src.omop_schema.schema.v5_0
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   src.omop_schema.schema.v5_0.OMOPSchemaV5
+
+
+Module Contents
+---------------
+
+.. py:class:: OMOPSchemaV5
+
+   Bases: :py:obj:`src.omop_schema.schema.base.OMOPSchemaBase`
+
+
+   A class to define and manage the schema for OMOP CDM tables for version 5.0.
+
+
+   .. py:method:: _load_schema()
+
+

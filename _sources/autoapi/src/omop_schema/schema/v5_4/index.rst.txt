@@ -1,0 +1,25 @@
+src.omop_schema.schema.v5_4
+===========================
+
+.. py:module:: src.omop_schema.schema.v5_4
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   src.omop_schema.schema.v5_4.OMOPSchemaV54
+
+
+Module Contents
+---------------
+
+.. py:class:: OMOPSchemaV54
+
+   Bases: :py:obj:`src.omop_schema.schema.v5_3.OMOPSchemaV53`
+
+
+   .. py:method:: _load_schema()
+
+

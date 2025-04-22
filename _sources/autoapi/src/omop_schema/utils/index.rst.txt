@@ -1,0 +1,98 @@
+src.omop_schema.utils
+=====================
+
+.. py:module:: src.omop_schema.utils
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   src.omop_schema.utils.POLARS_AVAILABLE
+   src.omop_schema.utils.PANDAS_AVAILABLE
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   src.omop_schema.utils.get_schema_loader
+   src.omop_schema.utils.pyarrow_to_polars_schema
+   src.omop_schema.utils.pyarrow_to_pandas_schema
+   src.omop_schema.utils.load_table
+   src.omop_schema.utils.load_table_polars
+   src.omop_schema.utils.get_table_path
+
+
+Module Contents
+---------------
+
+.. py:data:: POLARS_AVAILABLE
+   :value: True
+
+
+.. py:data:: PANDAS_AVAILABLE
+   :value: True
+
+
+.. py:function:: get_schema_loader(omop_version)
+
+   Returns the appropriate schema loader based on the OMOP version.
+
+
+.. py:function:: pyarrow_to_polars_schema(arrow_schema: pyarrow.Schema) -> dict
+
+   Convert a PyArrow schema to a Polars schema.
+
+   :param arrow_schema: The PyArrow schema to convert.
+   :type arrow_schema: pa.Schema
+
+   :returns: A dictionary representing the Polars schema.
+   :rtype: dict
+
+   :raises ImportError: If Polars is not installed.
+   :raises ValueError: If the PyArrow type is not supported.
+
+
+.. py:function:: pyarrow_to_pandas_schema(arrow_schema: pyarrow.Schema) -> dict
+
+   Convert a PyArrow schema to a Pandas schema.
+
+   :param arrow_schema: The PyArrow schema to convert.
+   :type arrow_schema: pa.Schema
+
+   :returns: A dictionary representing the Pandas schema.
+   :rtype: dict
+
+
+.. py:function:: load_table(fp: str | pathlib.Path, schema: src.omop_schema.schema.base.OMOPSchemaBase = None) -> pyarrow.Table | None
+
+   Load a dataset for the given OMOP table using PyArrow.
+
+   :param fp: Path to the file or directory.
+   :type fp: Path
+   :param schema: Schema to validate and cast the table against.
+   :type schema: OMOPSchemaBase, optional
+
+   :returns: The loaded PyArrow Table, or None if no valid files are found.
+   :rtype: pa.Table | None
+
+
+.. py:function:: load_table_polars(fp: str | pathlib.Path, schema: src.omop_schema.schema.base.OMOPSchemaBase = None, case_insensitive=True) -> polars.LazyFrame | None
+
+   Load a dataset for the given OMOP table using Polars with lazy evaluation.
+
+   :param fp: Path to the file or directory.
+   :type fp: Path
+   :param schema: Schema to validate and cast the table against.
+   :type schema: OMOPSchemaBase, optional
+
+   :returns: The loaded Polars LazyFrame, or None if no valid files are found.
+             :param case_insensitive:
+   :rtype: pl.LazyFrame | None
+
+
+.. py:function:: get_table_path(input_dir: str, table_name: str) -> pathlib.Path | None
+

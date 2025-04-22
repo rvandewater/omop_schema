@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.omop_schema.schema.v5_0 &mdash; omop_schema 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8c5712d9"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            omop_schema
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">omop_schema</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.omop_schema.schema.v5_0</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.omop_schema.schema.v5_0</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">OMOPSchemaBase</span>
+
+
+<div class="viewcode-block" id="OMOPSchemaV5">
+<a class="viewcode-back" href="../../../../autoapi/src/omop_schema/schema/v5_0/index.html#src.omop_schema.schema.v5_0.OMOPSchemaV5">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OMOPSchemaV5</span><span class="p">(</span><span class="n">OMOPSchemaBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to define and manage the schema for OMOP CDM tables for version 5.0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OMOPSchemaV5._load_schema">
+<a class="viewcode-back" href="../../../../autoapi/src/omop_schema/schema/v5_0/index.html#src.omop_schema.schema.v5_0.OMOPSchemaV5._load_schema">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;concept&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;domain_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_class_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;standard_concept&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_code&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;invalid_reason&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;vocabulary&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;vocabulary_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_reference&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_version&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;domain_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;domain_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;domain_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;concept_class&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;concept_class_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_class_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_class_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;concept_relationship&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;concept_id_1&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_id_2&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;relationship_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;invalid_reason&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;relationship&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;relationship_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;relationship_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;is_hierarchical&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;defines_ancestry&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;reverse_relationship_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;relationship_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;concept_synonym&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;concept_synonym_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;language_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;concept_ancestor&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;ancestor_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;descendant_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;min_levels_of_separation&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;max_levels_of_separation&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;source_to_concept_map&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;source_code&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;source_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;source_vocabulary_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;source_code_description&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;target_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;target_vocabulary_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;invalid_reason&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;drug_strength&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;drug_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;ingredient_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;amount_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;amount_unit_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;numerator_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;numerator_unit_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;denominator_unit_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;valid_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;invalid_reason&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;attribute_definition&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;attribute_definition_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;attribute_description&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">large_string</span><span class="p">(),</span>
+                <span class="s2">&quot;attribute_type_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;attribute_syntax&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">large_string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;cdm_source&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;cdm_source_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;cdm_source_abbreviation&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;cdm_holder&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;source_description&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">large_string</span><span class="p">(),</span>
+                <span class="s2">&quot;source_documentation_reference&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;cdm_etl_reference&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;source_release_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;cdm_release_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;cdm_version&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;vocabulary_version&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;fact_relationship&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;domain_concept_id_1&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;fact_id_1&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;domain_concept_id_2&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;fact_id_2&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;relationship_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;location_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;address_1&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;address_2&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;zip&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;county&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;location_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;care_site&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;care_site_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;care_site_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;place_of_service_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;location_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;care_site_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;place_of_service_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;provider&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;provider_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;provider_name&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;NPI&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;DEA&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;specialty_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;care_site_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;year_of_birth&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;gender_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;provider_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;specialty_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;specialty_source_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;gender_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;gender_source_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;payer_plan_period&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;payer_plan_period_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;plan_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+                <span class="s2">&quot;family_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;visit_cost&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;visit_cost_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;visit_occurrence_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;currency_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_copay&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_coinsurance&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_toward_deductible&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_payer&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_coordination_benefits&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_out_of_pocket&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_paid&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;procedure_cost&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;procedure_cost_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;procedure_occurrence_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;currency_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_copay&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_coinsurance&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_toward_deductible&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_payer&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_coordination_benefits&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_out_of_pocket&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_paid&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;revenue_code_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;revenue_code_source_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">string</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;drug_cost&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;drug_cost_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_exposure_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;currency_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_copay&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_coinsurance&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_toward_deductible&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_payer&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_coordination_benefits&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_out_of_pocket&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_paid&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;ingredient_cost&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;dispensing_fee&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;average_wholesale_price&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;device_cost&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;device_cost_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;device_exposure_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;currency_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_copay&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_coinsurance&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_toward_deductible&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_payer&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;paid_by_coordination_benefits&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_out_of_pocket&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;total_paid&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;payer_plan_period_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;cohort&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;cohort_definition_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;subject_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;cohort_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;cohort_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;cohort_attribute&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;cohort_definition_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;cohort_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;cohort_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;subject_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;attribute_definition_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;value_as_number&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;value_as_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;drug_era&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;drug_era_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_era_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_era_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_exposure_count&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;gap_days&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;dose_era&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;dose_era_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;drug_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;unit_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;dose_value&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">float64</span><span class="p">(),</span>
+                <span class="s2">&quot;dose_era_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;dose_era_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;condition_era&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;condition_era_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;person_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;condition_concept_id&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+                <span class="s2">&quot;condition_era_start_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;condition_era_end_date&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">date64</span><span class="p">(),</span>
+                <span class="s2">&quot;condition_occurrence_count&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">int64</span><span class="p">(),</span>
+            <span class="p">},</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Robin P. van de Water.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

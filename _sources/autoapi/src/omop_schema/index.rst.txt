@@ -1,0 +1,18 @@
+src.omop_schema
+===============
+
+.. py:module:: src.omop_schema
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/src/omop_schema/convert/index
+   /autoapi/src/omop_schema/schema/index
+   /autoapi/src/omop_schema/utils/index
+   /autoapi/src/omop_schema/validate/index
+
+
