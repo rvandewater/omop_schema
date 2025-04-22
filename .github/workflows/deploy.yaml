@@ -34,7 +34,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx-rtd-theme
+          pip install sphinx sphinx-rtd-theme sphinx-autoapi
 
         # Build Sphinx documentation
       #          pip install mkdocs-material 'mkdocstrings[python]' sphinx-autoapi
