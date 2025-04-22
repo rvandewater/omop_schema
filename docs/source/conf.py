@@ -21,7 +21,7 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
+# html_theme = "alabaster"
 html_static_path = ["_static"]
 
 import os
@@ -37,6 +37,6 @@ extensions = [
 ]
 master_doc = "index"
 autoapi_type = "python"
-autoapi_dirs = ["../../src/omop_schema/"]  # Adjusted path to your source code
+autoapi_dirs = ["../../src/"]  # Adjusted path to your source code
 # templates_path = ['_templates']
-# html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
