@@ -1,7 +1,7 @@
 import polars as pl
 import pyarrow as pa
 
-from src.omop_schema.convert import convert_to_schema, convert_to_schema_polars
+from omop_schema.convert import convert_to_schema, convert_to_schema_polars
 
 
 def test_convert_to_schema():

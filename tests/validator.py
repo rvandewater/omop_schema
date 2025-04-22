@@ -1,6 +1,6 @@
 # Initialize the validator
-from src.omop_schema.schema.v5_3 import OMOPSchemaV53
-from src.omop_schema.validate import OMOPValidator, validate_omop_dataset_graphically
+from omop_schema.schema.v5_3 import OMOPSchemaV53
+from omop_schema.validate import OMOPValidator, validate_omop_dataset_graphically
 
 validator = OMOPValidator(OMOPSchemaV53)
 

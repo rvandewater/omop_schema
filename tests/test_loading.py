@@ -4,7 +4,7 @@ import tempfile
 import pyarrow as pa
 import pytest
 
-from src.omop_schema.schema.base import OMOPSchemaBase
+from omop_schema.schema.base import OMOPSchemaBase
 
 
 class MockOMOPSchema(OMOPSchemaBase):
