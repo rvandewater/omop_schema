@@ -7,21 +7,35 @@ on:
 permissions:
   contents: write
 jobs:
-  #  deploy:
-  #    runs-on: ubuntu-latest
-  #  jobs:
   pages:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - id: deployment
         uses: sphinx-notes/pages@v3
         with:
-          publish: false
           documentation_path: ./docs/source
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.deployment.outputs.artifact }}
+#jobs:
+#  #  deploy:
+#  #    runs-on: ubuntu-latest
+#  #  jobs:
+#  pages:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - id: deployment
+#        uses: sphinx-notes/pages@v3
+#        with:
+#          publish: false
+#          documentation_path: ./docs/source
+#      - uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ${{ steps.deployment.outputs.artifact }}
 #    steps:
 #      - uses: actions/checkout@v4
 
