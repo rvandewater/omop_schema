@@ -67,8 +67,6 @@ repos:
             "--max-line-length=110",
             "--exclude",
             "logs/*,data/*",
-            "--per-file-ignores",
-            "__init__.py:F401",
           ]
 
   # yaml formatting

@@ -37,6 +37,6 @@ extensions = [
 ]
 master_doc = "index"
 autoapi_type = "python"
-autoapi_dirs = ["../../src/omop_schema/"]  # Adjusted path to your source code
+autoapi_dirs = ["../../src/omop_schema"]  # Adjusted path to your source code
 # templates_path = ['_templates']
 html_theme = "sphinx_rtd_theme"
