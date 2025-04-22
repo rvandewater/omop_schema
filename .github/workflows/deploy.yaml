@@ -24,32 +24,41 @@ jobs:
 
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
 
-      - uses: actions/cache@v4
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-
-          restore-keys: |
-            mkdocs-material-
-
+      #      - uses: actions/cache@v4
+      #        with:
+      #          key: mkdocs-material-${{ env.cache_id }}
+      #          path: .cache
+      #
+      #          restore-keys: |
+      #            mkdocs-material-
       # Install dependencies
       - name: Install dependencies
         run: |
-          pip install mkdocs-material 'mkdocstrings[python]' sphinx-autoapi
+          pip install sphinx sphinx-rtd-theme
 
-      # Build Sphinx documentation
-      #      - name: Build Sphinx documentation
-      #        run: |
-      #          cd sphinx
-      #          make html
-      #
+        # Build Sphinx documentation
+      #          pip install mkdocs-material 'mkdocstrings[python]' sphinx-autoapi
+      - name: Build Sphinx documentation
+        run: |
+          cd sphinx
+          make html
+
       #      # Copy Sphinx output to MkDocs docs directory
       #      - name: Copy Sphinx output
       #        run: |
       #          cp -r sphinx/build/html docs/sphinx
 
       # Deploy MkDocs to GitHub Pages
-      - name: Deploy MkDocs
+      #      - name: Deploy MkDocs
+      #        run: |
+      #          mkdocs build --config-file ".readthedocs.yaml" --site-dir docs
+      #          mkdocs gh-deploy --force
+      - name: Deploy Sphinx to GitHub Pages
         run: |
-          mkdocs build --config-file ".readthedocs.yml" --site-dir docs
-          mkdocs gh-deploy --force
+          git worktree add /tmp/gh-pages origin/gh-pages || true
+          rm -rf /tmp/gh-pages/*
+          cp -r sphinx/build/html/* /tmp/gh-pages/
+          cd /tmp/gh-pages
+          git add --all
+          git commit -m "Deploy Sphinx documentation" || true
+          git push origin gh-pages
