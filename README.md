@@ -47,9 +47,11 @@ also names 5.4) and retrieve the schema of a table:
 ```python
 from omop_schema.versions import SUPPORTED_VERSIONS, get_schema_loader
 
-schema_v54 = get_schema_loader("5.4")  # or OMOPSchemaV54() from omop_schema.schema.v5_4
-concept_schema = schema_v54.get_pyarrow_schema("concept")  # or .get_polars_schema("concept")
-print(schema_v54.version, schema_v54.get_table_names())
+# Or OMOPSchemaV54() from omop_schema.schema.v5_4.
+schema_v54 = get_schema_loader("5.4")
+# Or .get_polars_schema("concept").
+concept_schema = schema_v54.get_pyarrow_schema("concept")
+print(SUPPORTED_VERSIONS, schema_v54.version, schema_v54.get_table_names())
 ```
 
 `tests/cdm_spec/` holds the official CDM field lists, and the tests require every schema to have exactly their
@@ -64,7 +66,8 @@ table's schema:
 from omop_schema.scan import scan_table
 from omop_schema.versions import get_schema_loader
 
-notes = scan_table("path/to/omop/note", get_schema_loader("5.4"))  # table name taken from the path
+# The table name is taken from the path.
+notes = scan_table("path/to/omop/note", get_schema_loader("5.4"))
 ```
 
 - Column names are lowercased first, so uppercase headers (as SQL Server exports write them) get their types.
