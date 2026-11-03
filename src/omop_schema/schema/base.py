@@ -10,6 +10,9 @@ class OMOPSchemaBase(ABC):
     Abstract base class to define and manage the schema for OMOP CDM tables.
     """
 
+    #: The OMOP CDM version ("<major>.<minor>") the schema describes, if any.
+    version: str | None = None
+
     def __init__(self):
         self.schemas = self._load_schema()
 
@@ -34,6 +37,29 @@ class OMOPSchemaBase(ABC):
             pyarrow.Schema: The PyArrow schema for the specified table.
         """
         return pa.schema([pa.field(name, dtype) for name, dtype in self.get_schema(table_name).items()])
+
+    def get_polars_schema(self, table_name):
+        """
+        Get the Polars schema for a specific table.
+
+        Args:
+            table_name (str): The name of the table.
+
+        Returns:
+            dict: Column name -> Polars data type; empty for an unknown table.
+
+        Raises:
+            ImportError: If Polars is not installed.
+
+        Examples:
+            >>> from omop_schema.schema.v5_4 import OMOPSchemaV54
+            >>> schema = OMOPSchemaV54().get_polars_schema("death")
+            >>> schema["person_id"], schema["death_date"], schema["death_datetime"]
+            (Int64, Date, Datetime(time_unit='us', time_zone=None))
+        """
+        from ..utils import pyarrow_to_polars_schema
+
+        return pyarrow_to_polars_schema(self.get_pyarrow_schema(table_name))
 
     def get_table_names(self):
         return list(self.schemas.keys())

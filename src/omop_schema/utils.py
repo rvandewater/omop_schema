@@ -6,8 +6,7 @@ from pyarrow import parquet as pq
 
 from .convert import convert_to_schema_polars
 from .schema.base import OMOPSchemaBase
-from .schema.v5_3 import OMOPSchemaV53
-from .schema.v5_4 import OMOPSchemaV54
+from .versions import get_schema_loader as _get_schema_loader
 
 try:
     import polars as pl
@@ -25,14 +24,12 @@ except ImportError:
 
 def get_schema_loader(omop_version):
     """
-    Returns the appropriate schema loader based on the OMOP version.
+    Returns the schema of an OMOP CDM version (5.3, 5.4 or 5.5; see `omop_schema.versions`).
+
+    Raises:
+        ValueError: If the version is not supported.
     """
-    if omop_version == "5.3" or omop_version == 5.3:
-        return OMOPSchemaV53()
-    elif omop_version == "5.4" or omop_version == 5.4:
-        return OMOPSchemaV54()
-    else:
-        raise ValueError(f"Unsupported OMOP version: {omop_version}")
+    return _get_schema_loader(omop_version)
 
 
 def pyarrow_to_polars_schema(arrow_schema: pa.Schema) -> dict:
