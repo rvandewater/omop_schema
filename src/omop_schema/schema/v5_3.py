@@ -9,6 +9,8 @@ class OMOPSchemaV53(OMOPSchemaBase):
     The base schema is currently defined for version 5.3.
     """
 
+    version = "5.3"
+
     def _load_schema(self):
         return {
             "person": {

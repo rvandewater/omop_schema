@@ -4,10 +4,8 @@ import pyarrow as pa
 from pyarrow import csv
 from pyarrow import parquet as pq
 
-from .convert import convert_to_schema_polars
 from .schema.base import OMOPSchemaBase
-from .schema.v5_3 import OMOPSchemaV53
-from .schema.v5_4 import OMOPSchemaV54
+from .versions import get_schema_loader as _get_schema_loader
 
 try:
     import polars as pl
@@ -25,14 +23,12 @@ except ImportError:
 
 def get_schema_loader(omop_version):
     """
-    Returns the appropriate schema loader based on the OMOP version.
+    Returns the schema of an OMOP CDM version (5.3, 5.4 or 5.5; see `omop_schema.versions`).
+
+    Raises:
+        ValueError: If the version is not supported.
     """
-    if omop_version == "5.3" or omop_version == 5.3:
-        return OMOPSchemaV53()
-    elif omop_version == "5.4" or omop_version == 5.4:
-        return OMOPSchemaV54()
-    else:
-        raise ValueError(f"Unsupported OMOP version: {omop_version}")
+    return _get_schema_loader(omop_version)
 
 
 def pyarrow_to_polars_schema(arrow_schema: pa.Schema) -> dict:
@@ -195,50 +191,22 @@ def load_table_polars(
     """
     Load a dataset for the given OMOP table using Polars with lazy evaluation.
 
+    See `omop_schema.scan.scan_table`, which this calls, for the supported files and how the schema is
+    applied.
+
     Args:
         fp (Path): Path to the file or directory.
-        schema (OMOPSchemaBase, optional): Schema to validate and cast the table against.
+        schema (OMOPSchemaBase, optional): Schema to cast the table to. Extra columns are kept.
+        case_insensitive (bool): If True, column names are lowercased.
 
     Returns:
         pl.LazyFrame | None: The loaded Polars LazyFrame, or None if no valid files are found.
-        :param case_insensitive:
     """
-    if not isinstance(fp, Path):
-        fp = Path(fp)
-    table_name = fp.stem.split(".")[0]  # Infer table name from file path
+    if not POLARS_AVAILABLE:
+        raise ImportError("Polars is not installed. Install it to use this function.")
+    from .scan import scan_table
 
-    if fp.is_file():
-        if fp.suffix in [".csv", ".gz"]:
-            table = pl.scan_csv(fp)
-        elif fp.suffix == ".parquet":
-            table = pl.scan_parquet(fp)
-        else:
-            return None
-    elif fp.is_dir():
-        # Handle directory containing multiple files
-        files = list(fp.glob("**/*"))
-        csv_files = [file for file in files if file.suffix in [".csv", ".gz"]]
-        parquet_files = [file for file in files if file.suffix == ".parquet"]
-
-        if csv_files:
-            table = pl.scan_csv(fp)
-        elif parquet_files:
-            table = pl.scan_parquet(fp)
-        else:
-            return None
-    else:
-        return None
-
-    # Convert every field/column to lowercase
-    if case_insensitive:
-        table = table.select(pl.all().name.to_lowercase())
-    # If a schema is provided, validate and cast the table. Keep the extra columns.
-    if schema:
-        expected_schema = schema.get_schema(table_name)
-        expected_schema = pyarrow_to_polars_schema(pa.schema(expected_schema))
-        table = convert_to_schema_polars(table, expected_schema, allow_extra_columns=True)
-
-    return table
+    return scan_table(fp, schema, lowercase_columns=case_insensitive)
 
 
 def get_table_path(input_dir: str, table_name: str) -> Path | None:

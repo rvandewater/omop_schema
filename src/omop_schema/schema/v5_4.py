@@ -5,8 +5,12 @@ from .v5_3 import OMOPSchemaV53
 
 # Based on : https://ohdsi.github.io/CommonDataModel/cdm54Changes.html
 class OMOPSchemaV54(OMOPSchemaV53):
+    version = "5.4"
+
     def _load_schema(self):
         schemas = super()._load_schema()
+        # Removed in CDM 5.4.
+        schemas.pop("attribute_definition")
         schemas.update(
             {
                 "visit_occurrence": {
@@ -45,6 +49,7 @@ class OMOPSchemaV54(OMOPSchemaV53):
                     "admitted_from_source_value": pa.string(),
                     "discharged_to_concept_id": pa.int64(),
                     "discharged_to_source_value": pa.string(),
+                    "preceding_visit_detail_id": pa.int64(),
                     "parent_visit_detail_id": pa.int64(),
                     "visit_occurrence_id": pa.int64(),
                 },
