@@ -88,13 +88,15 @@ def convert_to_schema_polars(
     if not allow_extra_columns:
         dataset = dataset.select(list(target_schema.keys()))
 
-    # Ensure column types match the target schema
+    # Ensure column types match the target schema. Text is parsed into dates and datetimes, which Polars 2 no
+    # longer casts.
+    from .scan import cast_to_type
 
     for column, dtype in target_schema.items():
         if column not in source_schema:
             continue
         if source_schema.get(column) != dtype:
-            dataset = dataset.with_columns(pl.col(column).cast(dtype))
+            dataset = dataset.with_columns(cast_to_type(column, source_schema[column], dtype))
 
     return dataset
 

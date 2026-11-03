@@ -13,7 +13,10 @@
 
 ## Features
 
-- **Schema Management**: Define and manage schemas for OMOP CDM tables for different versions (e.g., 5.3, v5.4).
+- **Schema Management**: Schemas for every table of OMOP CDM 5.3, 5.4 and 5.5, checked field by field against
+    the official CDM specification.
+- **Reading Tables**: Lazily read an OMOP table (CSV, gzipped CSV, Parquet, or a directory of shards) into its
+    schema with Polars, keeping site extension columns.
 - **Schema Conversion**: Convert PyArrow schemas to Polars or Pandas-compatible schemas.
 - **Dataset Loading**: Load datasets from CSV files into PyArrow tables, ensuring they match the defined schema.
 - **Optional Dependencies**: Support for Polars and Pandas as optional dependencies for schema conversion.
@@ -38,22 +41,47 @@ pip install omop_schema[polars,pandas]
 
 ### 1. Define and Retrieve OMOP Schemas
 
-The package provides predefined schemas for OMOP CDM tables. You can retrieve the schema for a specific table:
+The package provides predefined schemas for OMOP CDM tables. Pick one by version (5.3, 5.4 or 5.5; `"v5.4.2"`
+also names 5.4) and retrieve the schema of a table:
 
 ```python
-from omop_schema.schema.v54 import OMOPSchemaV54
+from omop_schema.versions import SUPPORTED_VERSIONS, get_schema_loader
 
-schema_v54 = OMOPSchemaV54()
-concept_schema = schema_v54.get_pyarrow_schema("concept")
-print(concept_schema)
+schema_v54 = get_schema_loader("5.4")  # or OMOPSchemaV54() from omop_schema.schema.v5_4
+concept_schema = schema_v54.get_pyarrow_schema("concept")  # or .get_polars_schema("concept")
+print(schema_v54.version, schema_v54.get_table_names())
 ```
 
-### 2. Load Datasets
+`tests/cdm_spec/` holds the official CDM field lists, and the tests require every schema to have exactly their
+tables, fields and types.
+
+### 2. Read a Table with Polars
+
+`scan_table` lazily reads a `.csv`, `.csv.gz` or `.parquet` file, or a directory of such shards, in the
+table's schema:
+
+```python
+from omop_schema.scan import scan_table
+from omop_schema.versions import get_schema_loader
+
+notes = scan_table("path/to/omop/note", get_schema_loader("5.4"))  # table name taken from the path
+```
+
+- Column names are lowercased first, so uppercase headers (as SQL Server exports write them) get their types.
+- Columns outside the schema, such as site extension columns, are kept; pass `keep_extra_columns=False` to keep
+    only schema columns, or a Polars `selector` to choose.
+- Shards are stacked by column name, so they may order their columns differently or lack one.
+- DATE columns written with a midnight time (`2005-05-07 00:00:00`) are read as dates. Text dates may also be
+    `YYYY/MM/DD`, `DD-MM-YYYY`, `DD/MM/YYYY` or `YYYYMMDD`.
+- A value that does not fit its type raises when the table is collected; `strict=False` makes it null instead.
+- `add_missing_columns=True` adds schema columns the input lacks, as nulls.
+
+### 3. Load Datasets with PyArrow
 
 You can load datasets from a folder containing CSV files. The files are matched to the predefined schemas:
 
 ```python
-from omop_schema.schema.v54 import OMOPSchemaV54
+from omop_schema.schema.v5_4 import OMOPSchemaV54
 
 schema_v54 = OMOPSchemaV54()
 datasets = schema_v54.load_csv_dataset("path/to/csv/folder")
@@ -63,7 +91,7 @@ concept_table = datasets["concept"]
 print(concept_table)
 ```
 
-### 3. Convert PyArrow Schema to Polars Schema
+### 4. Convert PyArrow Schema to Polars Schema
 
 If Polars is installed, you can convert a PyArrow schema to a Polars-compatible schema:
 
@@ -82,7 +110,7 @@ polars_schema = pyarrow_to_polars_schema(arrow_schema)
 print(polars_schema)
 ```
 
-### 4. Convert PyArrow Schema to Pandas Schema
+### 5. Convert PyArrow Schema to Pandas Schema
 
 If Pandas is installed, you can convert a PyArrow schema to a Pandas-compatible schema:
 
@@ -103,7 +131,7 @@ print(pandas_schema)
 
 ## Optional Dependencies
 
-- **Polars**: For converting PyArrow schemas to Polars schemas.
+- **Polars** (>= 1.26): For reading tables with `scan_table` and converting PyArrow schemas to Polars schemas.
 - **Pandas**: For converting PyArrow schemas to Pandas schemas.
 
 # OMOP Dataset Validation - Graphical Method
